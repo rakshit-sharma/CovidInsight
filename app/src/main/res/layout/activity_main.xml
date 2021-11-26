@@ -4,34 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/splash_color"
     tools:context=".MainActivity">
 
-    <Toolbar
-        android:id="@+id/toolbar"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/splash_color"
-
-        android:title="@string/home_screen"
-        android:titleTextColor="@color/white"
+        app:cardBackgroundColor="@color/splash_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/api_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="26sp"
-        android:text="@string/implement_api_here"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
+            android:background="@color/splash_color"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iconHome"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_home_24" />
+
+            <ImageView
+                android:id="@+id/iconCovidData"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:src="@drawable/db" />
+
+            <ImageView
+                android:id="@+id/iconVaccineCenter"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:src="@drawable/medi" />
+
+            <ImageView
+                android:id="@+id/iconNews"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:src="@drawable/news" />
+
+            <ImageView
+                android:id="@+id/iconPrecaution"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:src="@drawable/caution" />
+
+            <ImageView
+                android:id="@+id/iconMenu"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:src="@drawable/menu" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    android:navigationIcon="@drawable/ic_launcher_foreground"-->
