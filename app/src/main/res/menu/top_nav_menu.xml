@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/homeFragment"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="@string/home"/>
+        <item
+            android:id="@+id/databaseFragment"
+            android:icon="@drawable/db"
+            android:title="@string/database"/>
+        <item
+            android:id="@+id/mediFragment"
+            android:icon="@drawable/medi"
+            android:title="@string/vaccination_centers"/>
+        <item
+            android:id="@+id/newsFragment"
+            android:icon="@drawable/news"
+            android:title="@string/news"/>
+        <item
+            android:id="@+id/cautionFragment"
+            android:icon="@drawable/caution"
+            android:title="@string/precaution"/>
+    <!--     <item -->
+    <!--         android:id="@+id/menu" -->
+    <!--         android:icon="@drawable/menu" -->
+    <!--         android:title="Menu" /> -->
+</menu>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_navigations"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.minorProject.covidinsight.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/databaseFragment"
+        android:name="com.minorProject.covidinsight.fragments.DatabaseFragment"
+        android:label="fragment_database"
+        tools:layout="@layout/fragment_database"/>
+    <fragment
+        android:id="@+id/mediFragment"
+        android:name="com.minorProject.covidinsight.fragments.MediFragment"
+        android:label="fragment_medi"
+        tools:layout="@layout/fragment_medi"/>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.minorProject.covidinsight.fragments.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news"/>
+    <fragment
+        android:id="@+id/cautionFragment"
+        android:name="com.minorProject.covidinsight.fragments.CautionFragment"
+        android:label="fragment_caution"
+        tools:layout="@layout/fragment_caution"/>
+
+</navigation>

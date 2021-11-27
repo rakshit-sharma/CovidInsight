@@ -4,4 +4,15 @@
     <string name="app_logo">logo of the application</string>
     <string name="home_screen">Home Screen</string>
     <string name="covid_data">Covid Data</string>
+    <string name="precaution">Precaution</string>
+    <string name="news">News</string>
+    <string name="vaccination_centers">Vaccination Centers</string>
+    <string name="database">Covid Data</string>
+    <string name="home">Home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="covid_tracking">COVID TRACKING</string>
+    <string name="vaccination_centers_homepage">VACCINATION CENTERS</string>
+    <string name="news_homepage">NEWS</string>
+    <string name="precautions">PRECAUTIONS</string>
 </resources>
