@@ -1,34 +1,43 @@
 package com.minorProject.covidinsight.fragments
 
+
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.minorProject.covidinsight.R
+import com.minorProject.covidinsight.StateModel
+import com.minorProject.covidinsight.StateRVAdapter
+import org.json.JSONException
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DatabaseFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DatabaseFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
+    private lateinit var worldCasesTV:TextView
+    private lateinit var worldRecoveredTV:TextView
+    private lateinit var worldDeathsTV:TextView
+    private lateinit var countryCasesTV:TextView
+    private lateinit var countryRecoveredTV:TextView
+    private lateinit var countryDeathsTV:TextView
+    private lateinit var stateRV:RecyclerView
+    private lateinit var stateRVAdapter: StateRVAdapter
+    private lateinit var stateList:List<StateModel>
+
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<StateRVAdapter.StateRVViewHolder>? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,26 +46,88 @@ class DatabaseFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_database, container, false)
 
+        worldCasesTV = view.findViewById(R.id.idTVWorldCases)
+        worldRecoveredTV = view.findViewById(R.id.idTVWorldRecovered)
+        worldDeathsTV = view.findViewById(R.id.idTVWorldDeaths)
+        countryCasesTV = view.findViewById(R.id.idTVIndiaCases)
+        countryRecoveredTV = view.findViewById(R.id.idTVIndiaRecovered)
+        countryDeathsTV = view.findViewById(R.id.idTVIndiaDeaths)
+        stateRV = view.findViewById(R.id.idRVStates) as RecyclerView
+        stateList = ArrayList<StateModel>()
+        getStateInfo()
+        getWorldInfo()
+
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DatabaseFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DatabaseFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getStateInfo(){
+        val url = "https://api.rootnet.in/covid19-in/stats/latest"
+        val queue = Volley.newRequestQueue(activity)
+        val request =
+            JsonObjectRequest(Request.Method.GET, url, null, { response ->
+                try {
+                    val dataObj = response.getJSONObject("data")
+                    val summaryObj = dataObj.getJSONObject("summary")
+                    val cases:Int = summaryObj.getInt("total")
+                    val recovered:Int = summaryObj.getInt("discharged")
+                    val deaths:Int = summaryObj.getInt("deaths")
+
+                    countryCasesTV.text = cases.toString()
+                    countryRecoveredTV.text = recovered.toString()
+                    countryDeathsTV.text = deaths.toString()
+
+                    val regionalArray = dataObj.getJSONArray("regional")
+                    for (i in 0 until regionalArray.length()){
+                        val regionalObj = regionalArray.getJSONObject(i)
+                        val stateName:String = regionalObj.getString("loc")
+                        val cases:Int = regionalObj.getInt("totalConfirmed")
+                        val deaths:Int = regionalObj.getInt("deaths")
+                        val recovered:Int = regionalObj.getInt("discharged")
+
+                        val stateModel = StateModel(stateName, recovered, deaths, cases)
+                        stateList = stateList+stateModel
+                    }
+                    stateRVAdapter = StateRVAdapter(stateList)
+                    stateRV.layoutManager = LinearLayoutManager(activity)
+                    stateRV.adapter = stateRVAdapter
+                    Log.d("LOG HELP", "getStateInfo: "+"\\\\\\\\\\\\\\\\\\\\\\rakshit")
                 }
-            }
+                catch (e:JSONException){
+                    e.printStackTrace()
+                }
+            }, { error ->
+                {
+                    Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+        queue.add(request)
     }
+
+    private fun getWorldInfo(){
+        val url = "https://disease.sh/v3/covid-19/all"
+        val queue = Volley.newRequestQueue(activity)
+        val request =
+            JsonObjectRequest(Request.Method.GET, url, null,{ response->
+                try {
+                    val worldCases:Int = response.getInt("cases")
+                    val worldRecovered:Int = response.getInt("recovered")
+                    val worldDeaths:Int = response.getInt("deaths")
+                    worldRecoveredTV.text = worldRecovered.toString()
+                    worldCasesTV.text = worldCases.toString()
+                    worldDeathsTV.text = worldDeaths.toString()
+                }
+                catch (e:JSONException){
+                    e.printStackTrace()
+                }
+            }, {
+                error->
+                {
+                Toast.makeText(getContext(), "Fail to get data", Toast.LENGTH_SHORT).show()
+                }
+            })
+        queue.add(request)
+    }
+
+
 }

@@ -10,7 +10,9 @@
     <color name="splash_color">#8CB3B9</color>
     <color name="purple">#5B638A</color> //for icon clicked indicator
     <color name="skyBlue">#2EE1CC</color>
-    
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+    <color name="blue">#3F51B5</color>
     <color name="colorPrimary">#2BCC6F</color>
     <color name="colorPrimaryDark">#2BCC6F</color>
     <color name="colorAccent">#333333</color>
