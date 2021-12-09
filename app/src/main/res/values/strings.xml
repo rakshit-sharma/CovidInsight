@@ -15,4 +15,13 @@
     <string name="vaccination_centers_homepage">VACCINATION CENTERS</string>
     <string name="news_homepage">NEWS</string>
     <string name="precautions">PRECAUTIONS</string>
+    <string name="center_name">Center Name</string>
+    <string name="center_location">Center Location</string>
+    <string name="center_timing">Center Timing</string>
+    <string name="vaccine_name">Vaccine Name</string>
+    <string name="fees">Fees</string>
+    <string name="age_limit">Age Limit</string>
+    <string name="availiability">Availiability</string>
+    <string name="enter_pin_code">Enter Pin code</string>
+    <string name="search">Search</string>
 </resources>

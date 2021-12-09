@@ -10,6 +10,7 @@
         android:roundIcon="@drawable/icon_img"
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidInsight">
+
         <activity
             android:name=".MainActivity"
             android:label="Home" />
