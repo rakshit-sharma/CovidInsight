@@ -31,6 +31,7 @@ class DatabaseFragment : Fragment() {
     private lateinit var countryCasesTV:TextView
     private lateinit var countryRecoveredTV:TextView
     private lateinit var countryDeathsTV:TextView
+
     private lateinit var stateRV:RecyclerView
     private lateinit var stateRVAdapter: StateRVAdapter
     private lateinit var stateList:List<StateModel>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Covid Insight</string>
     <string name="implement_api_here">implement API here</string>
     <string name="app_logo">logo of the application</string>
@@ -24,4 +24,13 @@
     <string name="availiability">Availiability</string>
     <string name="enter_pin_code">Enter Pin code</string>
     <string name="search">Search</string>
+    <string name="indian_states_records">INDIAN STATES RECORDS</string>
+    <string name="india_record">India Record</string>
+    <string name="number_of_deaths" tools:ignore="DuplicateDefinition">Number of Deaths</string>
+    <string name="deaths" tools:ignore="DuplicateDefinition">Deaths</string>
+    <string name="number_of_recovered" tools:ignore="DuplicateDefinition">Number of Recovered</string>
+    <string name="recovered" tools:ignore="DuplicateDefinition">Recovered</string>
+    <string name="number_of_cases" tools:ignore="DuplicateDefinition">Number of Cases</string>
+    <string name="cases" tools:ignore="DuplicateDefinition">Cases</string>
+    <string name="world_wide_record">World Wide Record</string>
 </resources>

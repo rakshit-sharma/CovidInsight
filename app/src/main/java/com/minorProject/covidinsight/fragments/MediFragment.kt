@@ -79,7 +79,7 @@ class MediFragment : Fragment() {
 
     private fun getAppointmentDetails(pinCode: String, date: String){
         
-        val url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode="+pinCode+"&date="+date //replace https from http
+        val url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode="+pinCode+"&date="+date       //replaced https from http
         val queue = Volley.newRequestQueue(activity)
         val request =
             JsonObjectRequest(Request.Method.GET,url,null, Response.Listener{ response ->
