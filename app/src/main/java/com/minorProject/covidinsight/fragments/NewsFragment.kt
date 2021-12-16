@@ -1,29 +1,39 @@
 package com.minorProject.covidinsight.fragments
 
-import android.net.Uri
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.gson.Gson
 import com.minorProject.covidinsight.*
+import com.minorProject.covidinsight.Adapter.ViewHolder.ListSourceAdapter
+import com.minorProject.covidinsight.Common.Common
+import com.minorProject.covidinsight.Interface.NewsService
+import com.minorProject.covidinsight.Model.WebSite
+import dmax.dialog.SpotsDialog
+import io.paperdb.Paper
+import retrofit2.Call
+import retrofit2.Response
 
-class NewsFragment : Fragment(), NewsItemClicked{
+class NewsFragment : Fragment(){
 
-    private lateinit var newsListAdapter: NewsListAdapter
-    private lateinit var newsList:ArrayList<NewsRVModel>
-    private lateinit var newsRV: RecyclerView
+    //Key=ea27af924ef44aab8149230bad278f1b
+//    https://newsapi.org/v2/top-headlines?country=in&category=health&apiKey=ea27af924ef44aab8149230bad278f1b
 
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<NewsViewHolder>? = null
+    private lateinit var newsRV : RecyclerView
+    private lateinit var newsRefresh : SwipeRefreshLayout
 
+
+    lateinit var layoutManager: LinearLayoutManager
+    lateinit var mService: NewsService
+    lateinit var adapter: ListSourceAdapter
+    lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,52 +42,86 @@ class NewsFragment : Fragment(), NewsItemClicked{
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_news, container, false)
 
+        newsRV = view.findViewById(R.id.recycler_view_source_news) as RecyclerView
+        newsRefresh = view.findViewById(R.id.swipe_to_refresh)
 
-        newsRV = view.findViewById(R.id.idRVNews) as RecyclerView
-        newsList = ArrayList<NewsRVModel>()
+        //Init cache DB
+        Paper.init(activity)
 
+        //Init Service
+        mService = Common.newsService
 
-        newsListAdapter = NewsListAdapter(this)
-        newsRV.layoutManager = LinearLayoutManager(activity)
-        newsRV.adapter = newsListAdapter
+        //Init View
+        newsRefresh.setOnRefreshListener{
+            loadWebsiteSource(true)
+        }
 
-        fetchData()
+        newsRV.setHasFixedSize(true)
+        layoutManager = LinearLayoutManager(activity)
+        newsRV.layoutManager = layoutManager
+
+        dialog = SpotsDialog(activity)
+
+        loadWebsiteSource(false)
 
         return view
     }
 
-    private fun fetchData() {
-        val url = "https://newsapi.org/v2/top-headlines?country=in&category=health&apiKey=ea27af924ef44aab8149230bad278f1b"
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET,
-            url,
-            null,
-            Response.Listener{
-                val newsJsonArray = it.getJSONArray("articles")
-                val newsArray = ArrayList<NewsRVModel>()
-                for (i in 0 until newsJsonArray.length()){
-                    val newsJsonObject = newsJsonArray.getJSONObject(i)
-                    val news = NewsRVModel(
-                        newsJsonObject.getString("title"),
-                        newsJsonObject.getString("author"),
-                        newsJsonObject.getString("url"),
-                        newsJsonObject.getString("urlToImage")
-                    )
-                    newsArray.add(news)
-                }
-                newsListAdapter.updateNews(newsArray)
-            },
-            Response.ErrorListener {
-                Toast.makeText(getContext(), "Failed to get NEWS data", Toast.LENGTH_SHORT).show()
+    private fun loadWebsiteSource(isRefresh: Boolean) {
+        if(!isRefresh){
+            val cache = Paper.book().read<String>("cache")
+            if (cache != null && !cache.isBlank() && cache != "null"){
+                //Read cache
+                val webSite = Gson().fromJson<WebSite>(cache, WebSite::class.java)
+                adapter = ListSourceAdapter(requireContext(), webSite) //earlier it was -> baseContext
+                adapter.notifyDataSetChanged()
+                newsRV.adapter = adapter
+            }else{
+                //Load website and write cache
+                dialog.show()
+                //Fetch new data
+                mService.sources.enqueue(object :retrofit2.Callback<WebSite>{
+
+                    override fun onFailure(call: Call<WebSite>, t: Throwable) {
+                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onResponse(call: Call<WebSite>, response: Response<WebSite>) {
+                        adapter = ListSourceAdapter(requireContext(), response!!.body()!!)  //try requireActivity()
+                        adapter.notifyDataSetChanged()
+                        newsRV.adapter = adapter
+
+                        //Save to cache
+                        Paper.book().write("cache", Gson().toJson(response!!.body()!!))
+
+                        dialog.dismiss()
+                    }
+                })
             }
-        )
-        MySingleton.getInstance(this.requireActivity()).addToRequestQueue(jsonObjectRequest)
+
+        }else{
+            newsRefresh.isRefreshing = true
+            //Fetch new data
+            mService.sources.enqueue(object :retrofit2.Callback<WebSite>{
+
+                override fun onFailure(call: Call<WebSite>, t: Throwable) {
+                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onResponse(call: Call<WebSite>, response: Response<WebSite>) {
+                    adapter = ListSourceAdapter(requireContext(), response!!.body()!!)
+                    adapter.notifyDataSetChanged()
+                    newsRV.adapter = adapter
+
+                    //Save to cache
+                    Paper.book().write("cache", Gson().toJson(response!!.body()!!))
+
+                    newsRefresh.isRefreshing = false
+                }
+            })
+
+        }
     }
 
-    override fun onItemClicked(newsList: NewsRVModel){
-        val builder =  CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(requireActivity(), Uri.parse(newsList.url))
-    }
 }
 
