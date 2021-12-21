@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.minorProject.covidinsight.Common.ISO8601Parser
 import com.minorProject.covidinsight.Interface.ItemClickListener
-import com.minorProject.covidinsight.ListNews
 import com.minorProject.covidinsight.Model.Article
 import com.minorProject.covidinsight.NewsDetail
 import com.minorProject.covidinsight.R

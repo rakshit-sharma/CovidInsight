@@ -16,13 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topNavigationView"
-        app:navGraph="@navigation/top_navigations" />
+        app:navGraph="@navigation/top_navigations"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/topNavigationView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/splash_color"
+        android:background="@color/skyBlue"
         app:itemIconTint="@color/white"
         app:itemRippleColor="@android:color/white"
         app:itemTextColor="@android:color/white"

@@ -11,13 +11,14 @@
         android:layout_height="120dp"
         android:background="@drawable/btn_bg_homepage"
         android:text="@string/covid_tracking"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+    </Button>
 
     <Button
         android:id="@+id/btnMedi"
@@ -25,7 +26,7 @@
         android:layout_height="120dp"
         android:background="@drawable/btn_bg_homepage"
         android:text="@string/vaccination_centers_homepage"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -38,7 +39,7 @@
         android:layout_height="120dp"
         android:background="@drawable/btn_bg_homepage"
         android:text="@string/news_homepage"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -51,7 +52,7 @@
         android:layout_height="120dp"
         android:background="@drawable/btn_bg_homepage"
         android:text="@string/precautions"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"

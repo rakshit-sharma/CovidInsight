@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="splash_color">#8CB3B9</color>
-    <color name="purple">#5B638A</color> //for icon clicked indicator
+    <color name="greyishBlue">#5B638A</color> //for icon clicked indicator
     <color name="skyBlue">#2EE1CC</color>
     <color name="red">#F44336</color>
     <color name="green">#4CAF50</color>
@@ -23,4 +23,5 @@
     <color name="colorTrendingEnd">#96C93D</color>
     <color name="colorDivider">#D6D6D6</color>
     <color name="purpletest">#680486</color>
+    <color name="cautionCard">#7FD7AE</color>
 </resources>
